@@ -1,6 +1,7 @@
 package com.example;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import com.example.FastTest;
 import com.example.SlowTest;
 import org.junit.jupiter.api.*;
@@ -8,6 +9,8 @@ import org.junit.jupiter.api.condition.EnabledOnJre;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.JRE;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
@@ -26,11 +29,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 //@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@ExtendWith(FindSlowTestExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
 
 	int value = 1;
+
+	@RegisterExtension
+	static FindSlowTestExtension findSlowTestExtension =
+			new FindSlowTestExtension(1000L);
 
 	@Order(2)
 	@FastTest
@@ -53,7 +61,8 @@ class StudyTest {
 	@SlowTest
 	@Tag("slow")
 	@DisplayName("스터디 만들기 slow")
-	void create_new_study_again() {
+	void create_new_study_again() throws InterruptedException {
+		Thread.sleep(1005L);
 		System.out.println(this);
 		System.out.println(value++);
 	}
