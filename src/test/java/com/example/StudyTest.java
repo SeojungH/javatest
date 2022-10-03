@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+//@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
@@ -52,8 +52,10 @@ class StudyTest {
 	@Order(1)
 	@SlowTest
 	@Tag("slow")
+	@DisplayName("스터디 만들기 slow")
 	void create_new_study_again() {
-		System.out.println("create1");
+		System.out.println(this);
+		System.out.println(value++);
 	}
 
 	@Order(3)
@@ -68,6 +70,7 @@ class StudyTest {
 	@DisplayName("스터디 날씨")
 	@ParameterizedTest(name = "{index} {displayName} message={0}")
 	@ValueSource(ints = {10, 20, 40})
+	@Disabled
 	void parameterrizedTest(@ConvertWith(StudyConverter.class) Study study) {
 		System.out.println(study.getLimit());
 	}
