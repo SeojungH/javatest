@@ -21,6 +21,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.annotation.EnableMBeanExport;
 
+
 import java.time.Duration;
 import java.util.function.Supplier;
 
@@ -45,8 +46,6 @@ class StudyTest {
 	@DisplayName("스터디 만들기 fast")
 	@Tag("fast")
 	void create_new_study() {
-
-		//TODO ThreadLocal
 		System.out.println(this);
 		System.out.println(value++);
 		String test_env = System.getenv("TEST_ENV");
@@ -54,7 +53,6 @@ class StudyTest {
 
 		Study actual = new Study(1);
 		assertThat(actual.getLimit()).isGreaterThan(0);
-
 	}
 
 	@Order(1)

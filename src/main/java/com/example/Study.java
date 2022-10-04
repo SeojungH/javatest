@@ -1,8 +1,10 @@
 package com.example;
 
-public class Study {
-	private StudyStatus status;
+import java.time.LocalDateTime;
 
+public class Study {
+	private StudyStatus status = StudyStatus.DRAFT;
+	private LocalDateTime openedDateTime;
 	private int limit;
 	private String name;
 
@@ -10,7 +12,14 @@ public class Study {
 		this.limit = limit;
 		this.name = name;
 	}
+	public void publish() {
+		this.openedDateTime = LocalDateTime.now();
+		this.status = StudyStatus.OPENED;
+	}
 
+	public LocalDateTime getOpenedDateTime() {
+		return openedDateTime;
+	}
 
 	public StudyStatus getStatus() {
 		return this.status;
