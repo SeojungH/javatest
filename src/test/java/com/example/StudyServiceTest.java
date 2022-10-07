@@ -3,14 +3,15 @@ package com.example;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.InOrder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class StudyServiceTest {
@@ -22,6 +23,8 @@ class StudyServiceTest {
 
 	@Test
 	void createNewStudy() {
+
+		//Given
 		StudyService studyService = new StudyService(memberService, studyRepository);
 		assertNotNull(studyService);
 
@@ -31,18 +34,16 @@ class StudyServiceTest {
 
 		Study study = new Study(10, "테스트");
 
-		// memberService 객체에 findById 메소드를 1L 값으로 호출하면 member 객체를 리턴하도록 Stubbing
-		when(memberService.findById(1L)).thenReturn(Optional.of(member));
+		given(memberService.findById(1L)).willReturn(Optional.of(member));
+		given(studyRepository.save(study)).willReturn(study);
 
-		// studyRepository 객체에 save 메소드를 study 객체로 호출하면 study 객체 그대로 리턴하도록 Stubbing
-		when(studyRepository.save(study)).thenReturn(study);
-
+		// When (When -> Given)
 		studyService.createNewStudy(1L, study);
 
+		// Then (Verify -> Then)
 		assertEquals(member, study.getOwner());
-
-		verify(memberService, times(1)).notify(study);
-		verifyNoMoreInteractions(memberService);
+		then(memberService).should(times(1)).notify(study);
+		then(memberService).shouldHaveNoMoreInteractions();
 	}
 
 }
