@@ -46,13 +46,7 @@ class StudyTest {
 	@DisplayName("스터디 만들기 fast")
 	@Tag("fast")
 	void create_new_study() {
-		System.out.println(this);
-		System.out.println(value++);
-		String test_env = System.getenv("TEST_ENV");
-		System.out.println(test_env);
 
-		Study actual = new Study(1);
-		assertThat(actual.getLimit()).isGreaterThan(0);
 	}
 
 	@Order(1)
@@ -79,7 +73,7 @@ class StudyTest {
 	@ValueSource(ints = {10, 20, 40})
 	@Disabled
 	void parameterrizedTest(@ConvertWith(StudyConverter.class) Study study) {
-		System.out.println(study.getLimit());
+
 	}
 
 	static class StudyConverter extends SimpleArgumentConverter {
