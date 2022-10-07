@@ -15,8 +15,10 @@ public class StudyService {
 
 	public Study createNewStudy(Long memberId, Study study) {
 		Optional<Member> member = memberService.findById(memberId);
-		study.setOwner(member.orElseThrow(()-> new IllegalArgumentException("Member d")));
-		return repository.save(study);
+		study.setOwner(member.orElseThrow(() -> new IllegalArgumentException("Member d")));
+		Study newstudy = repository.save(study);
+		memberService.notify(newstudy);
+		return newstudy;
 	}
 
 }
